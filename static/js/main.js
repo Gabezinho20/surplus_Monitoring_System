@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarExcedentes();
     configurarFileUpload();
     configurarEventosComboboxGlobal();
+    inicializarNavegacao();
 });
 
 // ==========================================
@@ -830,3 +831,116 @@ function exportarParaExcel() {
         window.location.href = `/api/exportar-excedentes?supervisao=${encodeURIComponent(supervisao)}`;
     }
 }
+
+// ==========================================
+// 14. NAVEGAÇÃO E TABS (NOVA ABA IMPORTAÇÕES)
+// ==========================================
+function inicializarNavegacao() {
+    const navPainelGeral = document.getElementById("navPainelGeral");
+    const navImportacoes = document.getElementById("navImportacoes");
+    const painelGeralView = document.getElementById("painelGeralView");
+    const importacoesView = document.getElementById("importacoesView");
+
+    if (navPainelGeral && navImportacoes && painelGeralView && importacoesView) {
+        navPainelGeral.addEventListener("click", (e) => {
+            e.preventDefault();
+            navPainelGeral.classList.add("active");
+            navImportacoes.classList.remove("active");
+            painelGeralView.style.display = "block";
+            importacoesView.style.display = "none";
+        });
+
+        navImportacoes.addEventListener("click", (e) => {
+            e.preventDefault();
+            navImportacoes.classList.add("active");
+            navPainelGeral.classList.remove("active");
+            importacoesView.style.display = "block";
+            painelGeralView.style.display = "none";
+        });
+    }
+}
+
+// ==========================================
+// 15. LÓGICA DE UPLOAD PELO CARD DE IMPORTAÇÃO (MOCKUP ACCURACY)
+// ==========================================
+function arquivosSelecionadoNoCard() {
+    const input = document.getElementById("fileUploadInputCard");
+    const dropzoneText = document.getElementById("dropzoneText");
+    const cloudIconSvg = document.getElementById("cloudUploadIcon");
+    const btnImportar = document.getElementById("btnImportarCard");
+
+    if (input && input.files && input.files.length > 0) {
+        const file = input.files[0];
+        dropzoneText.innerHTML = `Selecionado: <strong style="color: #22d3ee;">${escapeHtml(file.name)}</strong>`;
+        if (cloudIconSvg) {
+            cloudIconSvg.style.stroke = "#22d3ee";
+        }
+        if (btnImportar) {
+            btnImportar.disabled = false;
+        }
+    } else {
+        dropzoneText.textContent = "Selecionar arquivo .CSV";
+        if (cloudIconSvg) {
+            cloudIconSvg.style.stroke = "#475569";
+        }
+        if (btnImportar) {
+            btnImportar.disabled = true;
+        }
+    }
+}
+
+async function fazerUploadBasePeloCard() {
+    const input = document.getElementById("fileUploadInputCard");
+    const btnImportar = document.getElementById("btnImportarCard");
+    const dropzoneText = document.getElementById("dropzoneText");
+    const cloudIconSvg = document.getElementById("cloudUploadIcon");
+
+    if (!input || !input.files || input.files.length === 0) {
+        mostrarToast("Selecione um arquivo primeiro.", "erro");
+        return;
+    }
+
+    const file = input.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+        if (btnImportar) {
+            btnImportar.disabled = true;
+            btnImportar.textContent = "Importando...";
+        }
+        mostrarToast("Enviando e processando base de lojas...", "info");
+
+        const res = await fetch("/api/upload-base", {
+            method: "POST",
+            body: formData
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            mostrarToast(data.message, "sucesso");
+            
+            // Recarregar lojas e atualizar estados
+            await carregarLojasEInicializar();
+            await carregarExcedentes();
+            
+            // Resetar o card
+            input.value = "";
+            dropzoneText.textContent = "Selecionar arquivo .CSV";
+            if (cloudIconSvg) {
+                cloudIconSvg.style.stroke = "#475569";
+            }
+        } else {
+            mostrarToast("Erro: " + data.message, "erro");
+        }
+    } catch (err) {
+        console.error(err);
+        mostrarToast("Erro ao processar o arquivo enviado.", "erro");
+    } finally {
+        if (btnImportar) {
+            btnImportar.textContent = "Importar Colaboradores";
+            btnImportar.disabled = (input.value === "");
+        }
+    }
+}
+

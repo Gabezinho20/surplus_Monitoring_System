@@ -29,22 +29,20 @@
 
             <div class="nav-section-title">Navegação</div>
             <nav class="nav-menu">
-                <a href="#" class="nav-item active">
+                <a href="#" class="nav-item active" id="navPainelGeral">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                     Painel Geral
+                </a>
+                <a href="#" class="nav-item" id="navImportacoes">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Importações
                 </a>
             </nav>
 
             <div class="nav-section-title">Base de Dados</div>
             <div class="sidebar-box">
-                <div class="box-title">Atualizar Base de Lojas</div>
-                <div class="box-desc">Envie arquivo Excel ou CSV (Col 1: Loja, Col 2: Supervisão)</div>
-                <input type="file" id="fileUploadInput" accept=".xlsx, .xls, .csv" hidden>
-                <button class="btn-secondary full-width" onclick="document.getElementById('fileUploadInput').click()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    Importar Planilha
-                </button>
-                <div class="store-count-badge" id="storeCountDisplay">
+                <div class="box-title">Base de Lojas</div>
+                <div class="store-count-badge" id="storeCountDisplay" style="margin-top: 4px; text-align: left; font-size: 0.85rem;">
                     Total de Lojas: <strong>...</strong>
                 </div>
             </div>\favicon.ico
@@ -73,137 +71,196 @@
 
         <!-- MAIN CONTENT AREA -->
         <main class="main-content">
-            <!-- TOP BAR HEADER -->
-            <header class="top-header">
-                <div class="header-left">
-                    <h1>Painel de Controle <span>| Gestão de Excedentes</span></h1>
-                    <p>Acompanhamento analítico e operacional de colaboradores excedentes por unidade</p>
-                </div>
-                <div class="header-right">
-                    <div class="search-bar">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        <input type="text" id="searchInput" placeholder="Filtrar nesta lista..." onkeyup="filtrarTabelaPorBusca()">
+            <!-- PAINEL GERAL VIEW -->
+            <div id="painelGeralView">
+                <!-- TOP BAR HEADER -->
+                <header class="top-header">
+                    <div class="header-left">
+                        <h1>Painel de Controle <span>| Gestão de Excedentes</span></h1>
+                        <p>Acompanhamento analítico e operacional de colaboradores excedentes por unidade</p>
                     </div>
-                    <div class="user-profile" title="Operador">
-                        <div class="avatar">G</div>
+                    <div class="header-right">
+                        <div class="search-bar">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" id="searchInput" placeholder="Filtrar nesta lista..." onkeyup="filtrarTabelaPorBusca()">
+                        </div>
+                        <div class="user-profile" title="Operador">
+                            <div class="avatar">G</div>
+                        </div>
                     </div>
-                </div>
-            </header>
+                </header>
 
-            <!-- ACTION BAR -->
-            <div class="action-bar">
-                <div class="section-heading">Indicadores e Registros Ativos</div>
-                <div class="action-buttons">
-                    <button class="btn-excel" onclick="exportarParaExcel()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8"/><path d="M8 17h8"/><path d="M10 9h-2"/></svg>
-                        Exportar Excel
-                    </button>
-                    <button class="btn-primary" onclick="abrirModalCadastro()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        Novo Excedente
-                    </button>
+                <!-- ACTION BAR -->
+                <div class="action-bar">
+                    <div class="section-heading">Indicadores e Registros Ativos</div>
+                    <div class="action-buttons">
+                        <button class="btn-excel" onclick="exportarParaExcel()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8"/><path d="M8 17h8"/><path d="M10 9h-2"/></svg>
+                            Exportar Excel
+                        </button>
+                        <button class="btn-primary" onclick="abrirModalCadastro()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Novo Excedente
+                        </button>
+                    </div>
+                </div>
+
+                <!-- METRIC CARDS -->
+                <div class="metrics-grid">
+                    <div class="saas-card">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="card-title">Total de Excedentes</div>
+                        <div class="card-value" id="kpiTotal">0 <span class="card-unit">pessoas</span></div>
+                    </div>
+                    <div class="saas-card">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        </div>
+                        <div class="card-title">Lojas Impactadas</div>
+                        <div class="card-value" id="kpiLojas">0 <span class="card-unit">unidades</span></div>
+                    </div>
+                    <div class="saas-card">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div class="card-title">Permanência Média</div>
+                        <div class="card-value" id="kpiMediaTempo">0 <span class="card-unit">dias</span></div>
+                    </div>
+                    <div class="saas-card">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <div class="card-title">Supervisões Com Registro</div>
+                        <div class="card-value" id="kpiSupervisoes">0 <span class="card-unit">regionais</span></div>
+                    </div>
+                </div>
+
+                <!-- CHARTS GRID -->
+                <div class="charts-grid">
+                    <!-- CHART 1: BAR RANKING -->
+                    <div class="chart-card col-span-2">
+                        <div class="chart-header">
+                            <div class="chart-title">Lojas com Maior Volume de Excedentes</div>
+                            <div class="chart-subtitle">Ranking detalhado por quantidade de colaboradores excedentes</div>
+                        </div>
+                        <div id="chartBarRanking"></div>
+                    </div>
+
+                    <!-- CHART 2: DONUT BY SUPERVISION -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-title">Distribuição por Supervisão</div>
+                            <div class="chart-subtitle">Proporção relativa por regional de supervisão</div>
+                        </div>
+                        <div id="chartPieSupervisao"></div>
+                    </div>
+
+                    <!-- CHART 3: AREA TIME PERMANENCE -->
+                    <div class="chart-card col-span-3">
+                        <div class="chart-header">
+                            <div class="chart-title">Tempo de Permanência em Dias</div>
+                            <div class="chart-subtitle">Acompanhamento temporal por unidade cadastrada</div>
+                        </div>
+                        <div id="chartLineTempo"></div>
+                    </div>
+                </div>
+
+                <!-- TABLE SECTION -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <div>
+                            <div class="table-title">Registros Ativos</div>
+                            <div class="table-subtitle">Monitore o tempo de duração, edite excedentes e encerre pendências</div>
+                        </div>
+                        <button class="btn-excel btn-sm" onclick="exportarParaExcel()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8"/><path d="M8 17h8"/><path d="M10 9h-2"/></svg>
+                            Exportar Excel
+                        </button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="saas-table" id="tabelaExcedentes">
+                            <thead>
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Loja</th>
+                                    <th>Supervisão</th>
+                                    <th>Excedente</th>
+                                    <th>Data Inicial</th>
+                                    <th>Tempo Decorrido</th>
+                                    <th style="text-align: right;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaBody">
+                                <!-- Inserido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- FOOTER COM BOTÃO MOSTRAR MAIS -->
+                    <div class="table-pagination-footer" id="tablePaginationFooter" hidden>
+                        <button class="btn-secondary btn-sm" id="btnMostrarMais" onclick="alternarMostrarTodosRegistros()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                            <span id="btnMostrarMaisTexto">Mostrar mais registros</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- METRIC CARDS -->
-            <div class="metrics-grid">
-                <div class="saas-card">
-                    <div class="card-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <!-- VIEW DE IMPORTAÇÕES -->
+            <div id="importacoesView" style="display: none;">
+                <!-- TOP BAR HEADER -->
+                <header class="top-header">
+                    <div class="header-left">
+                        <h1>Importação de Dados <span>| Base de Lojas</span></h1>
+                        <p>Envie arquivos de planilha para carga e atualização do cadastro de lojas</p>
                     </div>
-                    <div class="card-title">Total de Excedentes</div>
-                    <div class="card-value" id="kpiTotal">0 <span class="card-unit">pessoas</span></div>
-                </div>
-                <div class="saas-card">
-                    <div class="card-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <div class="header-right">
+                        <div class="user-profile" title="Operador">
+                            <div class="avatar">G</div>
+                        </div>
                     </div>
-                    <div class="card-title">Lojas Impactadas</div>
-                    <div class="card-value" id="kpiLojas">0 <span class="card-unit">unidades</span></div>
-                </div>
-                <div class="saas-card">
-                    <div class="card-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    </div>
-                    <div class="card-title">Permanência Média</div>
-                    <div class="card-value" id="kpiMediaTempo">0 <span class="card-unit">dias</span></div>
-                </div>
-                <div class="saas-card">
-                    <div class="card-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    </div>
-                    <div class="card-title">Supervisões Com Registro</div>
-                    <div class="card-value" id="kpiSupervisoes">0 <span class="card-unit">regionais</span></div>
-                </div>
-            </div>
+                </header>
 
-            <!-- CHARTS GRID -->
-            <div class="charts-grid">
-                <!-- CHART 1: BAR RANKING -->
-                <div class="chart-card col-span-2">
-                    <div class="chart-header">
-                        <div class="chart-title">Lojas com Maior Volume de Excedentes</div>
-                        <div class="chart-subtitle">Ranking detalhado por quantidade de colaboradores excedentes</div>
-                    </div>
-                    <div id="chartBarRanking"></div>
-                </div>
+                <div class="import-layout">
+                    <!-- CARD DE IMPORTAÇÃO (HIGH FIDELITY MOCKUP MATCH) -->
+                    <div class="mockup-card">
+                        <div class="mockup-card-header">
+                            <div class="mockup-icon-badge">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                            </div>
+                            <h2 class="mockup-card-title">Base de Lojas</h2>
+                            <p class="mockup-card-desc">Base de lojas com a Supervisão</p>
+                        </div>
 
-                <!-- CHART 2: DONUT BY SUPERVISION -->
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <div class="chart-title">Distribuição por Supervisão</div>
-                        <div class="chart-subtitle">Proporção relativa por regional de supervisão</div>
-                    </div>
-                    <div id="chartPieSupervisao"></div>
-                </div>
+                        <!-- Dropzone Area -->
+                        <div class="mockup-dropzone" id="mockupDropzone" onclick="document.getElementById('fileUploadInputCard').click()">
+                            <div class="mockup-dropzone-inner">
+                                <div class="mockup-dropzone-icon">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="cloudUploadIcon">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                </div>
+                                <span class="mockup-dropzone-text" id="dropzoneText">Selecionar arquivo .CSV</span>
+                            </div>
+                        </div>
 
-                <!-- CHART 3: AREA TIME PERMANENCE -->
-                <div class="chart-card col-span-3">
-                    <div class="chart-header">
-                        <div class="chart-title">Tempo de Permanência em Dias</div>
-                        <div class="chart-subtitle">Acompanhamento temporal por unidade cadastrada</div>
-                    </div>
-                    <div id="chartLineTempo"></div>
-                </div>
-            </div>
+                        <!-- Hidden File Input -->
+                        <input type="file" id="fileUploadInputCard" accept=".xlsx, .xls, .csv" style="display: none;" onchange="arquivosSelecionadoNoCard()">
 
-            <!-- TABLE SECTION -->
-            <div class="table-card">
-                <div class="table-header">
-                    <div>
-                        <div class="table-title">Registros Ativos</div>
-                        <div class="table-subtitle">Monitore o tempo de duração, edite excedentes e encerre pendências</div>
+                        <!-- Bottom Action Button -->
+                        <button class="mockup-action-btn" id="btnImportarCard" disabled onclick="fazerUploadBasePeloCard()">
+                            Importar Colaboradores
+                        </button>
                     </div>
-                    <button class="btn-excel btn-sm" onclick="exportarParaExcel()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8"/><path d="M8 17h8"/><path d="M10 9h-2"/></svg>
-                        Exportar Excel
-                    </button>
-                </div>
-                <div class="table-wrapper">
-                    <table class="saas-table" id="tabelaExcedentes">
-                        <thead>
-                            <tr>
-                                <th>Status</th>
-                                <th>Loja</th>
-                                <th>Supervisão</th>
-                                <th>Excedente</th>
-                                <th>Data Inicial</th>
-                                <th>Tempo Decorrido</th>
-                                <th style="text-align: right;">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabelaBody">
-                            <!-- Inserido via JS -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- FOOTER COM BOTÃO MOSTRAR MAIS -->
-                <div class="table-pagination-footer" id="tablePaginationFooter" hidden>
-                    <button class="btn-secondary btn-sm" id="btnMostrarMais" onclick="alternarMostrarTodosRegistros()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                        <span id="btnMostrarMaisTexto">Mostrar mais registros</span>
-                    </button>
                 </div>
             </div>
         </main>
