@@ -51,7 +51,15 @@ body {
     position: fixed;
     height: 100vh;
     overflow-y: auto;
+    scrollbar-width: none;      /* Firefox: remove barra de rolagem */
+    -ms-overflow-style: none;   /* IE/Edge legado */
     z-index: 10;
+}
+
+/* Chrome/Safari/Edge: oculta a barra de rolagem da sidebar */
+.sidebar::-webkit-scrollbar {
+    display: none;
+    width: 0;
 }
 
 .sidebar-header {
@@ -408,6 +416,21 @@ body {
     border-color: #ef4444;
 }
 
+/* CONTAINER DE AÇÕES DA TABELA (BOTÕES LADO A LADO) */
+.table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+.table-actions .btn-sm {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
 .full-width {
     width: 100%;
 }
@@ -514,6 +537,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
     margin-bottom: 18px;
 }
 
@@ -527,6 +552,34 @@ body {
     font-size: 0.8rem;
     color: var(--text-muted);
     margin-bottom: 0;
+}
+
+/* FILTRO POR LOJA NO HEADER DA TABELA */
+.table-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.table-filter-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.table-filter-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.table-filter-label svg {
+    color: var(--accent-orange);
+    flex-shrink: 0;
 }
 
 .table-wrapper {
@@ -1077,4 +1130,169 @@ body {
     transform: translateY(-1px);
     box-shadow: 0 6px 16px rgba(255, 255, 255, 0.1);
 }
+
+/* ==========================================
+   RESPONSIVIDADE DA TABELA E BOTÕES DE AÇÃO
+   ========================================== */
+@media (max-width: 1200px) {
+    .saas-table th,
+    .saas-table td {
+        padding: 12px 10px;
+        font-size: 0.82rem;
+    }
+
+    .table-actions {
+        gap: 4px;
+    }
+
+    .table-actions .btn-sm {
+        padding: 5px 9px;
+        font-size: 0.72rem;
+        gap: 4px;
+    }
+
+    .table-actions .btn-sm svg {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@media (max-width: 992px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .col-span-2, .col-span-3 {
+        grid-column: span 1;
+    }
+
+    .search-bar {
+        width: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 220px;
+        padding: 20px 14px;
+    }
+
+    .main-content {
+        margin-left: 220px;
+        padding: 20px 16px;
+    }
+
+    .top-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .search-bar {
+        flex: 1;
+        width: auto;
+    }
+
+    .action-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .table-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .table-header-actions {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .table-filter-box {
+        flex: 1;
+    }
+
+    .table-filter-box .custom-input {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    /* Ações da tabela em telas pequenas: mantém lado a lado, mas compacto */
+    .table-actions .btn-sm {
+        padding: 5px 8px;
+        font-size: 0.7rem;
+    }
+
+    .saas-table td {
+        padding: 12px 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-content {
+        margin-left: 0;
+        padding: 14px 12px;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .action-buttons .btn-excel,
+    .action-buttons .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .table-card {
+        padding: 14px;
+    }
+
+    .table-header-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .table-filter-box {
+        width: 100%;
+    }
+
+    /* Rolagem horizontal na tabela em telas muito pequenas */
+    .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .saas-table {
+        min-width: 720px;
+    }
+
+    .table-actions {
+        flex-wrap: nowrap;
+    }
+}
+
 

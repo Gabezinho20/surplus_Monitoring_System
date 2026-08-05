@@ -174,6 +174,18 @@
                             <div class="table-title">Registros Ativos</div>
                             <div class="table-subtitle">Monitore o tempo de duração, edite excedentes e encerre pendências</div>
                         </div>
+                        <div class="table-header-actions">
+                            <div class="table-filter-box">
+                                <label class="table-filter-label" for="selectSortTabela">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                    Ordenar
+                                </label>
+                                <select id="selectSortTabela" class="custom-input" style="width:auto; min-width:180px;" onchange="renderizarTabela(todosExcedentesRecords)">
+                                    <option value="alfabetica">Em ordem alfabética</option>
+                                    <option value="maior_qtd">Maior qtd excedentes</option>
+                                </select>
+                            </div>
+                        </div>
                         <button class="btn-excel btn-sm" onclick="exportarParaExcel()">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8"/><path d="M8 17h8"/><path d="M10 9h-2"/></svg>
                             Exportar Excel
